@@ -280,3 +280,415 @@
     grid-template-columns:1fr 1fr !important;
   }
 }
+
+
+/* =========================================================
+   v2.7 Mobile-first refinements
+   ========================================================= */
+
+@media (max-width: 720px) {
+  body {
+    background: #f6f8fb;
+  }
+
+  .wrap {
+    width: calc(100% - 16px);
+    padding: 14px 0 22px;
+  }
+
+  .hero {
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .hero h1 {
+    font-size: 28px;
+    line-height: 1.15;
+    margin: 2px 0 6px;
+  }
+
+  .hero p {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .eyebrow {
+    font-size: 10px;
+  }
+
+  .safe {
+    margin-top: 10px;
+    padding: 10px 12px;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .card {
+    padding: 14px;
+    border-radius: 14px;
+    margin-bottom: 12px;
+    box-shadow: 0 6px 20px rgba(31,45,61,.05);
+  }
+
+  .workspace-grid,
+  .workspace-grid.three-column-layout {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+
+  .settings-panel,
+  .process-panel,
+  .sticky-card {
+    position: static !important;
+  }
+
+  .section-title {
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .section-title span {
+    width: 26px;
+    height: 26px;
+    font-size: 14px;
+  }
+
+  .section-title h2 {
+    font-size: 18px;
+  }
+
+  .settings-skip-hint {
+    font-size: 14px !important;
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  /* 圖片拖曳區不要在手機上佔滿半個畫面 */
+  .image-panel .drop-zone,
+  .drop-zone {
+    min-height: 0 !important;
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .image-panel .drop-empty,
+  .drop-empty {
+    min-height: 0 !important;
+    padding: 22px 10px;
+  }
+
+  .drop-icon {
+    font-size: 34px;
+  }
+
+  .drop-empty h2 {
+    font-size: 19px;
+    margin: 6px 0 2px;
+  }
+
+  .drop-empty p {
+    margin: 4px 0 10px;
+    font-size: 13px;
+  }
+
+  .drop-empty small {
+    margin-top: 8px;
+    font-size: 11px;
+  }
+
+  .drop-empty .primary {
+    width: 100%;
+    max-width: 220px;
+  }
+
+  .selected-head {
+    gap: 8px;
+    align-items: center;
+  }
+
+  .selected-head strong {
+    font-size: 14px;
+  }
+
+  .selected-head .secondary {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .thumb-grid,
+  .image-panel .thumb-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px;
+  }
+
+  .thumb-card {
+    padding: 7px;
+    border-radius: 10px;
+  }
+
+  .thumb-card img {
+    border-radius: 7px;
+  }
+
+  .thumb-name {
+    font-size: 12px;
+    margin-top: 6px;
+  }
+
+  .thumb-size {
+    font-size: 11px;
+  }
+
+  .thumb-actions {
+    gap: 5px;
+    margin-top: 6px;
+  }
+
+  .thumb-actions button {
+    padding: 7px 4px;
+    font-size: 11px;
+  }
+
+  .drop-more {
+    font-size: 11px;
+    padding-top: 10px;
+  }
+
+  /* 快速模式與條件維持兩個一排 */
+  .preset-grid,
+  .preset-grid.two-per-row,
+  .preset-grid.three-col-compact {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px;
+  }
+
+  .preset {
+    padding: 11px;
+    min-height: 72px;
+  }
+
+  .preset b {
+    font-size: 13px;
+  }
+
+  .preset small {
+    font-size: 11px;
+  }
+
+  .mode-grid,
+  .mode-grid.two-per-row,
+  .mode-grid.one-col {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px;
+    margin: 10px 0;
+  }
+
+  .mode-grid label {
+    padding: 10px;
+    font-size: 13px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  .fields,
+  .fields.single-column,
+  .fields.one-col,
+  .fields.two {
+    grid-template-columns: 1fr !important;
+    gap: 10px;
+  }
+
+  .field input {
+    padding: 10px;
+  }
+
+  .field span {
+    padding: 10px;
+  }
+
+  .check {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  /* 摘要改三小格，比垂直三張卡更省空間 */
+  .summary,
+  .summary.single-column,
+  .summary.one-col {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 7px;
+  }
+
+  .summary div {
+    padding: 10px 8px;
+    text-align: center;
+  }
+
+  .summary small {
+    font-size: 10px;
+    line-height: 1.25;
+  }
+
+  .summary b {
+    font-size: 15px;
+    margin-top: 3px;
+  }
+
+  .progress {
+    margin-top: 12px;
+  }
+
+  .progress-text {
+    font-size: 11px;
+  }
+
+  .actions,
+  .vertical-actions {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .actions button,
+  .vertical-actions button {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .note {
+    padding: 11px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  /* 單張編輯在手機改為近全螢幕 */
+  .modal {
+    overflow: hidden;
+  }
+
+  .editor {
+    width: calc(100% - 8px);
+    height: calc(100vh - 8px);
+    max-height: none;
+    margin: 4px auto;
+    border-radius: 14px;
+    padding: 12px;
+    overflow-y: auto;
+  }
+
+  .editor-head {
+    position: sticky;
+    top: -12px;
+    z-index: 20;
+    background: #fff;
+    padding: 10px 0;
+  }
+
+  .editor-head h2 {
+    font-size: 19px;
+  }
+
+  .editor-head p {
+    font-size: 12px;
+    max-width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .close {
+    width: 36px;
+    height: 36px;
+  }
+
+  .editor-layout {
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+    padding-top: 12px;
+  }
+
+  .preview-wrap {
+    min-height: 260px;
+    padding: 10px;
+    border-radius: 11px;
+  }
+
+  .preview-stage canvas {
+    max-height: 48vh;
+  }
+
+  .info-box {
+    padding: 10px;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+
+  .slider {
+    margin: 8px 0 10px;
+  }
+
+  .quick-scale,
+  .ratio-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+  }
+
+  .quick-scale button,
+  .ratio {
+    padding: 9px 6px;
+    font-size: 12px;
+  }
+
+  .editor-actions {
+    position: sticky;
+    bottom: -12px;
+    background: #fff;
+    padding: 10px 0 2px;
+    z-index: 18;
+  }
+
+  .editor-actions button {
+    min-height: 44px;
+  }
+
+  hr {
+    margin: 14px 0;
+  }
+}
+
+/* 超窄手機再縮一點 */
+@media (max-width: 390px) {
+  .wrap {
+    width: calc(100% - 10px);
+  }
+
+  .card {
+    padding: 12px;
+  }
+
+  .preset-grid,
+  .preset-grid.two-per-row,
+  .preset-grid.three-col-compact,
+  .mode-grid,
+  .mode-grid.two-per-row,
+  .mode-grid.one-col {
+    gap: 6px;
+  }
+
+  .summary,
+  .summary.single-column,
+  .summary.one-col {
+    gap: 5px;
+  }
+
+  .summary div {
+    padding: 8px 5px;
+  }
+}
