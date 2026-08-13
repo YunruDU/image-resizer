@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="純前端圖片批次縮圖與單張調整工具，圖片只在瀏覽器本機處理。">
-  <title>圖片批次縮圖工具 v2.0</title>
+  <title>圖片批次縮圖工具 v2.2</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -101,7 +101,18 @@
       <div class="preview-wrap">
         <div id="previewStage" class="preview-stage">
           <canvas id="previewCanvas"></canvas>
-          <div id="resizeHandle" class="resize-handle" title="拖曳調整大小"></div>
+          <div id="cropBox" class="crop-box" hidden>
+            <div class="crop-title">裁切範圍 <span id="cropBoxSize"></span></div>
+            <div class="crop-edge crop-edge-n" data-edge="n"></div>
+            <div class="crop-edge crop-edge-s" data-edge="s"></div>
+            <div class="crop-edge crop-edge-e" data-edge="e"></div>
+            <div class="crop-edge crop-edge-w" data-edge="w"></div>
+            <div class="crop-corner crop-corner-nw" data-corner="nw"></div>
+            <div class="crop-corner crop-corner-ne" data-corner="ne"></div>
+            <div class="crop-corner crop-corner-sw" data-corner="sw"></div>
+            <div class="crop-corner crop-corner-se" data-corner="se"></div>
+          </div>
+          <div id="resizeHandle" class="resize-handle" title="拖曳調整輸出大小"></div>
         </div>
       </div>
 
@@ -109,6 +120,7 @@
         <div class="info-box">
           <div>原始尺寸 <b id="originalDim"></b></div>
           <div>目前輸出 <b id="currentDim"></b></div>
+          <div id="cropInfoRow" hidden>目前裁切 <b id="cropDim"></b></div>
         </div>
 
         <label class="check"><input id="lockRatio" type="checkbox" checked> 鎖定長寬比例</label>
@@ -119,7 +131,7 @@
         </div>
 
         <label>縮放比例 <b id="scaleValue">100%</b></label>
-        <input id="scaleSlider" class="slider" type="range" min="10" max="100" value="100">
+        <input id="scaleSlider" class="slider" type="range" min="10" max="300" value="100">
 
         <div class="quick-scale">
           <button data-scale="100">原始大小</button>
@@ -137,9 +149,33 @@
           <button class="ratio" data-ratio="1.333333">4:3</button>
           <button class="ratio" data-ratio="1.5">3:2</button>
           <button class="ratio" data-ratio="1.777777">16:9</button>
+          <button class="ratio" data-ratio="0.8">4:5</button>
+          <button class="ratio" data-ratio="0.5625">9:16</button>
+          <button class="ratio" data-ratio="0.707107">A4 直式</button>
         </div>
 
-        <p class="hint">固定比例會以圖片中央裁切，避免把人物或物件拉扁。</p>
+        <hr>
+
+        <label>擷取模式</label>
+        <div class="crop-mode-row">
+          <button id="freeCropBtn" class="secondary">只擷取部分</button>
+          <button id="newCropBtn" class="secondary">重新拉一個框</button>
+          <button id="resetCropBtn" class="ghost">重設裁切框</button>
+        </div>
+        <p class="hint">開啟後可拖曳裁切框、拖四邊或四角調整大小，也可按「重新拉一個框」後直接在圖片上拉出新的裁切範圍。</p>
+        <p class="hint small-muted">關閉「只擷取部分」時，仍可使用上方固定比例做中央裁切。</p>
+
+        <hr>
+        <label>旋轉</label>
+        <div class="rotate-row">
+          <button id="rotateLeftBtn" class="secondary">↶ 左轉 90°</button>
+          <button id="rotateRightBtn" class="secondary">↷ 右轉 90°</button>
+        </div>
+
+        <div class="final-preview-card">
+          <div class="final-preview-head"><strong>最終裁切預覽</strong><span id="finalPreviewDim"></span></div>
+          <canvas id="finalPreviewCanvas"></canvas>
+        </div>
 
         <div class="editor-actions">
           <button id="applyEditBtn" class="primary">套用到這張圖片</button>
