@@ -1,20 +1,18 @@
-# 圖片批次縮圖工具 GitHub Pages 版
+# 圖片批次縮圖工具 v2.0
 
-純前端 HTML + CSS + JavaScript 圖片縮圖工具。
+主要更新：
+- 圖片拖入後直接顯示在拖曳區內
+- 可繼續新增圖片
+- 點單張縮圖可進入編輯模式
+- 可用寬、高、百分比滑桿調整尺寸
+- 可拖曳圖片右下角控制點調整大小
+- 可鎖定長寬比例
+- 可選原始比例、1:1、4:3、3:2、16:9
+- 固定比例採中央裁切，不會把圖片硬拉變形
+- 單張直接下載圖檔
+- 多張才下載 ZIP
+- 中文檔名使用 UTF-8
+- 純前端處理，不上傳圖片
 
-功能包含 JPG/JPEG/PNG/WebP、多圖拖曳、網站圖片模式 1920 px / 2 MB、Email 模式 1600 px / 1 MB、自訂限制、單張下載、全部 ZIP 下載。
-
-所有圖片都只在瀏覽器本機處理，不會上傳到 GitHub、後端 API 或第三方伺服器。
-
-## GitHub Pages 部署
-
-1. 建立 Public Repository，例如 `image-resizer`
-2. 將本資料夾所有檔案上傳到 repository 根目錄
-3. Repository → Settings → Pages
-4. Source 選 `Deploy from a branch`
-5. Branch 選 `main`，Folder 選 `/(root)`
-6. Save
-
-網址通常會是：
-
-`https://你的帳號.github.io/image-resizer/`
+部署：
+將本資料夾內容直接上傳或覆蓋 GitHub Pages repository 根目錄即可。

@@ -2,75 +2,155 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="純前端圖片批次縮圖工具，所有圖片只在瀏覽器本機處理，不會上傳伺服器。">
-  <title>圖片批次縮圖工具</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="純前端圖片批次縮圖與單張調整工具，圖片只在瀏覽器本機處理。">
+  <title>圖片批次縮圖工具 v2.0</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="app-shell">
-    <header class="hero">
-      <div>
-        <p class="eyebrow">LOCAL IMAGE TOOL</p>
-        <h1>圖片批次縮圖工具</h1>
-        <p class="subtitle">批次縮小圖片尺寸與檔案容量，適合網站上傳、Email 附件與一般行政使用。</p>
-      </div>
-      <div class="privacy-badge">
-        <span class="privacy-icon">🔒</span>
-        <div><strong>圖片不會上傳</strong><span>所有處理都在您的瀏覽器本機完成</span></div>
-      </div>
-    </header>
+<main class="wrap">
+  <header class="hero">
+    <div>
+      <div class="eyebrow">LOCAL IMAGE TOOL</div>
+      <h1>圖片批次縮圖工具</h1>
+      <p>拖入後立即顯示縮圖，可批次處理，也可點單張圖片進行細部調整。</p>
+    </div>
+    <div class="safe">🔒 圖片只在您的瀏覽器本機處理，不會上傳</div>
+  </header>
 
-    <section class="panel upload-panel">
-      <div id="dropZone" class="drop-zone" tabindex="0" role="button">
+  <section class="card">
+    <div id="dropZone" class="drop-zone">
+      <div id="emptyDrop" class="drop-empty">
         <div class="drop-icon">🖼️</div>
         <h2>拖曳圖片到這裡</h2>
-        <p>或點選下方按鈕選擇多張圖片</p>
-        <button id="chooseBtn" class="btn btn-primary" type="button">選擇圖片</button>
-        <input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp" multiple hidden>
+        <p>或點選下方按鈕</p>
+        <button id="chooseBtn" class="primary">選擇圖片</button>
         <small>支援 JPG / JPEG / PNG / WebP</small>
       </div>
-    </section>
 
-    <section class="panel settings-panel">
-      <div class="section-heading"><div><span class="step">1</span><h2>縮圖設定</h2></div><button id="resetBtn" class="text-btn" type="button">重設</button></div>
-      <div class="preset-grid">
-        <button class="preset active" data-preset="web" type="button"><span class="preset-icon">🌐</span><strong>網站圖片</strong><small>1920 px / 2 MB</small></button>
-        <button class="preset" data-preset="email" type="button"><span class="preset-icon">✉️</span><strong>Email 附件</strong><small>1600 px / 1 MB</small></button>
-        <button class="preset" data-preset="custom" type="button"><span class="preset-icon">⚙️</span><strong>自訂</strong><small>自行設定</small></button>
+      <div id="selectedArea" hidden>
+        <div class="selected-head">
+          <strong>已選擇 <span id="selectedCount">0</span> 張圖片</strong>
+          <button id="addMoreBtn" class="secondary">＋ 新增圖片</button>
+        </div>
+        <div id="thumbGrid" class="thumb-grid"></div>
+        <div class="drop-more">也可以繼續拖曳更多圖片到這裡</div>
       </div>
-      <div class="mode-row">
-        <label class="radio-card"><input type="radio" name="resizeMode" value="pixels"><span><strong>限制圖片長邊</strong><small>只限制解析度</small></span></label>
-        <label class="radio-card"><input type="radio" name="resizeMode" value="size"><span><strong>限制檔案大小</strong><small>只限制 MB</small></span></label>
-        <label class="radio-card"><input type="radio" name="resizeMode" value="both" checked><span><strong>同時限制</strong><small>推薦</small></span></label>
-      </div>
-      <div class="setting-inputs">
-        <label><span>最大長邊</span><div class="input-unit"><input id="maxPx" type="number" min="100" step="100" value="1920"><span>px</span></div></label>
-        <label><span>最大檔案</span><div class="input-unit"><input id="maxMb" type="number" min="0.1" step="0.1" value="2"><span>MB</span></div></label>
-      </div>
-      <label class="checkbox-line"><input id="convertPng" type="checkbox" checked><span>PNG 沒有透明背景且容量過大時，允許轉成 JPG 以符合 MB 限制</span></label>
-    </section>
+      <input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp" multiple hidden>
+    </div>
+  </section>
 
-    <section class="panel queue-panel">
-      <div class="section-heading"><div><span class="step">2</span><h2>待處理圖片</h2></div><span id="fileCount" class="muted">0 張</span></div>
-      <div id="emptyState" class="empty-state">尚未加入圖片</div>
-      <div id="fileList" class="file-list" hidden></div>
-      <div class="summary-row">
-        <div><span>原始總容量</span><strong id="totalOriginal">0 MB</strong></div>
-        <div><span>處理後容量</span><strong id="totalOutput">0 MB</strong></div>
-        <div><span>節省空間</span><strong id="totalSaved">0%</strong></div>
+  <section class="card settings">
+    <div class="section-title"><span>1</span><h2>批次縮圖設定</h2></div>
+
+    <div class="preset-grid">
+      <button class="preset active" data-preset="web"><b>🌐 網站圖片</b><small>1920 px / 2 MB</small></button>
+      <button class="preset" data-preset="email"><b>✉️ Email 附件</b><small>1600 px / 1 MB</small></button>
+      <button class="preset" data-preset="custom"><b>⚙️ 自訂</b><small>自行設定</small></button>
+    </div>
+
+    <div class="mode-grid">
+      <label><input type="radio" name="mode" value="pixels"> 只限制像素</label>
+      <label><input type="radio" name="mode" value="size"> 只限制容量</label>
+      <label><input type="radio" name="mode" value="both" checked> 同時限制</label>
+    </div>
+
+    <div class="fields">
+      <label>最大長邊
+        <div class="field"><input id="maxPx" type="number" value="1920" min="100"><span>px</span></div>
+      </label>
+      <label>最大檔案
+        <div class="field"><input id="maxMb" type="number" value="2" min="0.1" step="0.1"><span>MB</span></div>
+      </label>
+    </div>
+
+    <label class="check"><input id="convertPng" type="checkbox" checked> PNG 無透明背景且過大時，允許轉成 JPG</label>
+  </section>
+
+  <section class="card">
+    <div class="section-title"><span>2</span><h2>處理與下載</h2></div>
+    <div class="summary">
+      <div><small>原始容量</small><b id="totalOriginal">0 MB</b></div>
+      <div><small>處理後容量</small><b id="totalOutput">0 MB</b></div>
+      <div><small>節省空間</small><b id="totalSaved">0%</b></div>
+    </div>
+    <div class="progress"><div id="progressBar"></div></div>
+    <div class="progress-text"><span id="statusText">準備就緒</span><span id="progressText">0%</span></div>
+    <div class="actions">
+      <button id="processBtn" class="primary" disabled>開始縮圖</button>
+      <button id="downloadBtn" class="secondary" disabled>下載處理結果</button>
+      <button id="resetBtn" class="ghost">全部清除</button>
+    </div>
+  </section>
+
+  <section class="note">🛡️ 本工具為純前端網頁，不使用後端 API、不上傳圖片、不儲存圖片。</section>
+</main>
+
+<div id="editorModal" class="modal" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="editor">
+    <div class="editor-head">
+      <div>
+        <h2>單張圖片調整</h2>
+        <p id="editorName"></p>
       </div>
-    </section>
+      <button class="close" data-close>×</button>
+    </div>
 
-    <section class="panel action-panel">
-      <div class="progress-wrap"><div class="progress-label"><span id="statusText">準備就緒</span><span id="progressText">0%</span></div><div class="progress-track"><div id="progressBar" class="progress-bar" style="width:0%"></div></div></div>
-      <div class="action-buttons"><button id="processBtn" class="btn btn-primary btn-large" type="button" disabled>開始縮圖</button><button id="downloadAllBtn" class="btn btn-secondary btn-large" type="button" disabled>全部下載 ZIP</button></div>
-    </section>
+    <div class="editor-layout">
+      <div class="preview-wrap">
+        <div id="previewStage" class="preview-stage">
+          <canvas id="previewCanvas"></canvas>
+          <div id="resizeHandle" class="resize-handle" title="拖曳調整大小"></div>
+        </div>
+      </div>
 
-    <section class="privacy-note"><div class="privacy-note-icon">🛡️</div><div><strong>隱私與安全</strong><p>本工具為純前端網頁。您選擇的圖片不會上傳至 GitHub、第三方伺服器或任何後端 API。關閉或重新整理頁面後，瀏覽器中的處理結果即會清除。</p></div></section>
-    <footer><span>圖片批次縮圖工具 v1.0</span><span>純前端版 · GitHub Pages 可直接部署</span></footer>
-  </main>
-  <script src="vendor/jszip.min.js"></script>
-  <script src="app.js"></script>
+      <div class="controls">
+        <div class="info-box">
+          <div>原始尺寸 <b id="originalDim"></b></div>
+          <div>目前輸出 <b id="currentDim"></b></div>
+        </div>
+
+        <label class="check"><input id="lockRatio" type="checkbox" checked> 鎖定長寬比例</label>
+
+        <div class="fields two">
+          <label>寬度<div class="field"><input id="editWidth" type="number" min="1"><span>px</span></div></label>
+          <label>高度<div class="field"><input id="editHeight" type="number" min="1"><span>px</span></div></label>
+        </div>
+
+        <label>縮放比例 <b id="scaleValue">100%</b></label>
+        <input id="scaleSlider" class="slider" type="range" min="10" max="100" value="100">
+
+        <div class="quick-scale">
+          <button data-scale="100">原始大小</button>
+          <button data-scale="75">75%</button>
+          <button data-scale="50">50%</button>
+          <button id="fit1920">網站 1920</button>
+        </div>
+
+        <hr>
+
+        <label>輸出比例</label>
+        <div class="ratio-grid">
+          <button class="ratio active" data-ratio="original">原始比例</button>
+          <button class="ratio" data-ratio="1">1:1</button>
+          <button class="ratio" data-ratio="1.333333">4:3</button>
+          <button class="ratio" data-ratio="1.5">3:2</button>
+          <button class="ratio" data-ratio="1.777777">16:9</button>
+        </div>
+
+        <p class="hint">固定比例會以圖片中央裁切，避免把人物或物件拉扁。</p>
+
+        <div class="editor-actions">
+          <button id="applyEditBtn" class="primary">套用到這張圖片</button>
+          <button id="downloadEditBtn" class="secondary">直接下載這張</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="vendor/jszip.min.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
