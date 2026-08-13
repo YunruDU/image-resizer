@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="純前端圖片批次縮圖與單張調整工具，圖片只在瀏覽器本機處理。">
-  <title>圖片批次縮圖工具 v2.2</title>
+  <title>圖片批次縮圖工具 v2.6</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,76 +12,83 @@
   <header class="hero">
     <div>
       <div class="eyebrow">LOCAL IMAGE TOOL</div>
-      <h1>圖片批次縮圖工具</h1>
+      <div class="title-row"><h1>圖片批次縮圖工具</h1><span class="version-badge">v2.6</span></div>
       <p>拖入後立即顯示縮圖，可批次處理，也可點單張圖片進行細部調整。</p>
     </div>
     <div class="safe">🔒 圖片只在您的瀏覽器本機處理，不會上傳</div>
   </header>
 
-  <section class="card">
-    <div id="dropZone" class="drop-zone">
-      <div id="emptyDrop" class="drop-empty">
-        <div class="drop-icon">🖼️</div>
-        <h2>拖曳圖片到這裡</h2>
-        <p>或點選下方按鈕</p>
-        <button id="chooseBtn" class="primary">選擇圖片</button>
-        <small>支援 JPG / JPEG / PNG / WebP</small>
-      </div>
+  <div class="workspace-grid three-column-layout">
+    <section class="card workspace-card image-panel">
+      <div class="section-title"><span>1</span><h2>圖片</h2></div>
 
-      <div id="selectedArea" hidden>
-        <div class="selected-head">
-          <strong>已選擇 <span id="selectedCount">0</span> 張圖片</strong>
-          <button id="addMoreBtn" class="secondary">＋ 新增圖片</button>
+      <div id="dropZone" class="drop-zone">
+        <div id="emptyDrop" class="drop-empty">
+          <div class="drop-icon">🖼️</div>
+          <h2>拖曳圖片到這裡</h2>
+          <p>或點選下方按鈕</p>
+          <button id="chooseBtn" class="primary">選擇圖片</button>
+          <small>支援 JPG / JPEG / PNG / WebP</small>
         </div>
-        <div id="thumbGrid" class="thumb-grid"></div>
-        <div class="drop-more">也可以繼續拖曳更多圖片到這裡</div>
+
+        <div id="selectedArea" hidden>
+          <div class="selected-head">
+            <strong>已選擇 <span id="selectedCount">0</span> 張圖片</strong>
+            <button id="addMoreBtn" class="secondary">＋ 新增圖片</button>
+          </div>
+          <div id="thumbGrid" class="thumb-grid"></div>
+          <div class="drop-more">也可以繼續拖曳更多圖片到這裡</div>
+        </div>
+        <input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp" multiple hidden>
       </div>
-      <input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp" multiple hidden>
-    </div>
-  </section>
+    </section>
 
-  <section class="card settings">
-    <div class="section-title"><span>1</span><h2>批次縮圖設定</h2></div>
+    <section class="card workspace-card settings-panel">
+      <div class="section-title settings-title"><span>2</span><div><h2>批次縮圖設定</h2><small class="settings-skip-hint">不想調整設定，可直接到右邊按「開始縮圖」</small></div></div>
 
-    <div class="preset-grid">
-      <button class="preset active" data-preset="web"><b>🌐 網站圖片</b><small>1920 px / 2 MB</small></button>
-      <button class="preset" data-preset="email"><b>✉️ Email 附件</b><small>1600 px / 1 MB</small></button>
-      <button class="preset" data-preset="custom"><b>⚙️ 自訂</b><small>自行設定</small></button>
-    </div>
+      <div class="preset-grid two-per-row">
+        <button class="preset active" data-preset="web"><b>🌐 網站圖片</b><small>1920 px / 2 MB</small></button>
+        <button class="preset" data-preset="email"><b>✉️ Email</b><small>1600 px / 1 MB</small></button>
+        <button class="preset" data-preset="custom"><b>⚙️ 自訂</b><small>自行設定</small></button>
+      </div>
 
-    <div class="mode-grid">
-      <label><input type="radio" name="mode" value="pixels"> 只限制像素</label>
-      <label><input type="radio" name="mode" value="size"> 只限制容量</label>
-      <label><input type="radio" name="mode" value="both" checked> 同時限制</label>
-    </div>
+      <div class="mode-grid two-per-row">
+        <label><input type="radio" name="mode" value="pixels"> 只限制像素</label>
+        <label><input type="radio" name="mode" value="size"> 只限制容量</label>
+        <label><input type="radio" name="mode" value="both" checked> 同時限制</label>
+      </div>
 
-    <div class="fields">
-      <label>最大長邊
-        <div class="field"><input id="maxPx" type="number" value="1920" min="100"><span>px</span></div>
-      </label>
-      <label>最大檔案
-        <div class="field"><input id="maxMb" type="number" value="2" min="0.1" step="0.1"><span>MB</span></div>
-      </label>
-    </div>
+      <div class="fields one-col">
+        <label>最大長邊
+          <div class="field"><input id="maxPx" type="number" value="1920" min="100"><span>px</span></div>
+        </label>
+        <label>最大檔案
+          <div class="field"><input id="maxMb" type="number" value="2" min="0.1" step="0.1"><span>MB</span></div>
+        </label>
+      </div>
 
-    <label class="check"><input id="convertPng" type="checkbox" checked> PNG 無透明背景且過大時，允許轉成 JPG</label>
-  </section>
+      <label class="check"><input id="convertPng" type="checkbox" checked> PNG 無透明背景且過大時，允許轉成 JPG</label>
+    </section>
 
-  <section class="card">
-    <div class="section-title"><span>2</span><h2>處理與下載</h2></div>
-    <div class="summary">
-      <div><small>原始容量</small><b id="totalOriginal">0 MB</b></div>
-      <div><small>處理後容量</small><b id="totalOutput">0 MB</b></div>
-      <div><small>節省空間</small><b id="totalSaved">0%</b></div>
-    </div>
-    <div class="progress"><div id="progressBar"></div></div>
-    <div class="progress-text"><span id="statusText">準備就緒</span><span id="progressText">0%</span></div>
-    <div class="actions">
-      <button id="processBtn" class="primary" disabled>開始縮圖</button>
-      <button id="downloadBtn" class="secondary" disabled>下載處理結果</button>
-      <button id="resetBtn" class="ghost">全部清除</button>
-    </div>
-  </section>
+    <section class="card workspace-card process-panel">
+      <div class="section-title"><span>3</span><h2>處理與下載</h2></div>
+
+      <div class="summary one-col">
+        <div><small>原始容量</small><b id="totalOriginal">0 MB</b></div>
+        <div><small>處理後容量</small><b id="totalOutput">0 MB</b></div>
+        <div><small>節省空間</small><b id="totalSaved">0%</b></div>
+      </div>
+
+      <div class="progress"><div id="progressBar"></div></div>
+      <div class="progress-text"><span id="statusText">準備就緒</span><span id="progressText">0%</span></div>
+
+      <div class="actions vertical-actions">
+        <button id="processBtn" class="primary" disabled>開始縮圖</button>
+        <button id="downloadBtn" class="secondary" disabled>下載處理結果</button>
+        <button id="resetBtn" class="ghost">全部清除</button>
+      </div>
+    </section>
+  </div>
 
   <section class="note">🛡️ 本工具為純前端網頁，不使用後端 API、不上傳圖片、不儲存圖片。</section>
 </main>

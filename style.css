@@ -15,3 +15,268 @@
 .final-preview-head{display:flex;justify-content:space-between;gap:10px;align-items:center;color:var(--muted);font-size:13px;margin-bottom:8px}
 .final-preview-card canvas{width:100%;height:auto;max-height:220px;object-fit:contain;background:#fff;border-radius:8px;display:block}
 @media(max-width:780px){.crop-mode-row,.rotate-row{grid-template-columns:1fr}}
+
+/* v2.3 main layout */
+.title-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.version-badge{display:inline-flex;align-items:center;justify-content:center;padding:5px 10px;border-radius:999px;background:var(--soft);color:var(--brand);font-size:13px;font-weight:800;border:1px solid #cfe0ff}
+.workspace-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(340px,.85fr);gap:18px;align-items:start}
+.image-panel{min-height:620px;margin-bottom:0}
+.right-column{min-width:0}
+.sticky-card{position:sticky;top:18px;margin-bottom:0}
+.settings-divider{height:1px;background:var(--line);margin:20px 0}
+.compact-title{margin-bottom:12px}
+.sticky-card .preset-grid{grid-template-columns:1fr}
+.sticky-card .mode-grid{grid-template-columns:1fr;gap:8px}
+.sticky-card .fields{grid-template-columns:1fr}
+.sticky-card .summary{grid-template-columns:1fr 1fr 1fr;gap:8px}
+.sticky-card .summary div{padding:10px}
+.sticky-card .summary b{font-size:16px}
+.vertical-actions{display:grid;grid-template-columns:1fr;gap:9px}
+.vertical-actions button{width:100%;min-height:44px}
+.image-panel .drop-zone{min-height:540px}
+.image-panel .drop-empty{padding:110px 24px}
+.image-panel .thumb-grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
+@media(max-width:980px){
+  .workspace-grid{grid-template-columns:1fr}
+  .sticky-card{position:static}
+  .image-panel{min-height:auto}
+  .image-panel .drop-zone{min-height:360px}
+  .image-panel .drop-empty{padding:55px 20px}
+  .sticky-card .preset-grid{grid-template-columns:repeat(3,1fr)}
+  .sticky-card .mode-grid{grid-template-columns:repeat(3,1fr)}
+  .sticky-card .fields{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:680px){
+  .title-row{align-items:flex-start}
+  .version-badge{margin-top:4px}
+  .sticky-card .preset-grid,.sticky-card .mode-grid,.sticky-card .fields,.sticky-card .summary{grid-template-columns:1fr}
+  .image-panel .thumb-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+
+/* v2.4 三欄工作區 */
+.workspace.three-column{
+  display:grid;
+  grid-template-columns:minmax(0,1.35fr) minmax(280px,.9fr) minmax(250px,.75fr);
+  gap:16px;
+  align-items:start;
+}
+.workspace-column{
+  margin-bottom:0;
+  min-width:0;
+}
+.image-column{
+  min-height:520px;
+}
+.settings-column,
+.process-column{
+  position:sticky;
+  top:18px;
+}
+.preset-grid.compact{
+  grid-template-columns:1fr;
+}
+.mode-grid.compact{
+  grid-template-columns:1fr;
+  margin:14px 0;
+}
+.fields.single-column{
+  grid-template-columns:1fr;
+}
+.summary.single-column{
+  grid-template-columns:1fr;
+}
+.vertical-actions{
+  flex-direction:column;
+}
+.vertical-actions button{
+  width:100%;
+}
+.image-column .thumb-grid{
+  grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+}
+.image-column .drop-zone{
+  min-height:440px;
+}
+.image-column .drop-empty{
+  min-height:390px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+@media(max-width:1000px){
+  .workspace.three-column{
+    grid-template-columns:1fr 1fr;
+  }
+  .image-column{
+    grid-column:1 / -1;
+  }
+  .settings-column,
+  .process-column{
+    position:static;
+  }
+}
+
+@media(max-width:720px){
+  .workspace.three-column{
+    grid-template-columns:1fr;
+  }
+  .image-column{
+    grid-column:auto;
+  }
+  .settings-column,
+  .process-column{
+    position:static;
+  }
+}
+
+
+/* v2.4: ① 圖片 ② 批次設定 ③ 處理下載，桌機三欄並排 */
+.workspace-grid.three-column-layout{
+  display:grid !important;
+  grid-template-columns:minmax(0,1.35fr) minmax(280px,.9fr) minmax(250px,.75fr) !important;
+  gap:16px;
+  align-items:start;
+}
+.workspace-card{
+  min-width:0;
+  margin-bottom:0;
+}
+.settings-panel,
+.process-panel{
+  position:sticky;
+  top:18px;
+}
+.settings-panel{
+  align-self:start;
+}
+.process-panel{
+  align-self:start;
+}
+.preset-grid.three-col-compact{
+  grid-template-columns:1fr;
+}
+.mode-grid.one-col,
+.fields.one-col,
+.summary.one-col{
+  grid-template-columns:1fr;
+}
+.mode-grid.one-col{
+  margin:14px 0;
+}
+.vertical-actions{
+  flex-direction:column;
+}
+.vertical-actions button{
+  width:100%;
+}
+.image-panel .thumb-grid{
+  grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+}
+.image-panel .drop-zone{
+  min-height:470px;
+}
+.image-panel .drop-empty{
+  min-height:420px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+@media(max-width:1050px){
+  .workspace-grid.three-column-layout{
+    grid-template-columns:1fr 1fr !important;
+  }
+  .image-panel{
+    grid-column:1 / -1;
+  }
+  .settings-panel,
+  .process-panel{
+    position:static;
+  }
+}
+
+@media(max-width:720px){
+  .workspace-grid.three-column-layout{
+    grid-template-columns:1fr !important;
+  }
+  .image-panel{
+    grid-column:auto;
+  }
+  .settings-panel,
+  .process-panel{
+    position:static;
+  }
+}
+
+
+/* v2.5：批次設定改為每列 2 個 */
+.settings-title{
+  align-items:flex-start;
+}
+.settings-title > div{
+  min-width:0;
+}
+.settings-title h2{
+  margin:0;
+}
+.settings-title small{
+  display:block;
+  margin-top:4px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.45;
+  font-weight:500;
+}
+
+.preset-grid.two-per-row,
+.mode-grid.two-per-row{
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+}
+
+.preset-grid.two-per-row .preset,
+.mode-grid.two-per-row label{
+  min-width:0;
+}
+
+@media(max-width:720px){
+  .preset-grid.two-per-row,
+  .mode-grid.two-per-row{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+}
+
+
+/* v2.6：設定欄加寬、提示加強 */
+.workspace-grid.three-column-layout{
+  grid-template-columns:minmax(0,1.15fr) minmax(360px,1.15fr) minmax(250px,.72fr) !important;
+}
+
+.settings-skip-hint{
+  display:block;
+  margin-top:7px;
+  color:#c62828 !important;
+  font-size:15px !important;
+  line-height:1.55;
+  font-weight:800 !important;
+}
+
+.settings-panel{
+  padding-left:24px;
+  padding-right:24px;
+}
+
+@media(max-width:1150px){
+  .workspace-grid.three-column-layout{
+    grid-template-columns:minmax(0,1fr) minmax(340px,1fr) minmax(240px,.72fr) !important;
+  }
+}
+
+@media(max-width:1050px){
+  .workspace-grid.three-column-layout{
+    grid-template-columns:1fr 1fr !important;
+  }
+}
